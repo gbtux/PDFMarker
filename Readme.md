@@ -11,20 +11,20 @@ mvn clean package
 
 ### Normal en travers de la page
 ```
-java -jar App.jar doc.pdf out.pdf ""URGENT"" 30 45
+java -jar PDFMarker-1.0.jar doc.pdf out.pdf ""URGENT"" 30 45
 ```
 
 ### Gros en Diagonale:
 ```
-java -jar App.jar doc.pdf out.pdf ""URGENT"" 96 45
+java -jar PDFMarker-1.0.jar doc.pdf out.pdf ""URGENT"" 96 45
 ```
 
 ### Petit en Bas de Page (Horizontal),
 ```
-java -jar App.jar doc.pdf out.pdf ""ID: 123456"" 14 0
+java -jar PDFMarker-1.0.jar doc.pdf out.pdf ""ID: 123456"" 14 0
 ```
 
 ### Très Grand en Vertical :
 ```
-java -jar App.jar doc.pdf out.pdf ""BROUILLON"" 150 90
+java -jar PDFMarker-1.0.jar doc.pdf out.pdf ""BROUILLON"" 150 90
 ```
