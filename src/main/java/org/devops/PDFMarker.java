@@ -19,15 +19,16 @@ public class PDFMarker {
             String outputPath,
             String watermarkText,
             float fontSize,
-            int rotationAngle
+            int rotationAngle,
+            float transparency
     ) throws IOException {
 
-        // 1. CHARGEMENT DU DOCUMENT CORRIGÉ
+        // 1. CHARGEMENT DU DOCUMENT
         try (PDDocument document = Loader.loadPDF(new File(inputPath))) {
 
             // 2. Définir le style du filigrane (couleur et transparence)
             PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
-            gs.setNonStrokingAlphaConstant(0.2f); // 20% de transparence (valeur entre 0.0 et 1.0)
+            gs.setNonStrokingAlphaConstant(transparency); //0.2f --> 20% de transparence (valeur entre 0.0 et 1.0)
 
             // Paramètres du texte
             PDType1Font font = new PDType1Font(FontName.HELVETICA_BOLD);
@@ -86,9 +87,10 @@ public class PDFMarker {
         }
     }
 
+    
     public static void main(String[] args) throws IOException {
-        if (args.length != 5) {
-            System.err.println("Usage: java -jar PDFMarker.jar <inputPath> <outputPath> \"<watermarkText>\" <fontSize> <rotationAngle>");
+        if (args.length != 6) {
+            System.err.println("Usage: java -jar PDFMarker.jar <inputPath> <outputPath> \"<watermarkText>\" <fontSize> <rotationAngle> <transparency>");
             System.exit(1);
             return;
         }
@@ -100,24 +102,26 @@ public class PDFMarker {
 
         float fontSize;
         int rotationAngle;
+        float transparency = 0.2f;
 
         try {
             // Conversion en types numériques
             fontSize = Float.parseFloat(args[3]);
             rotationAngle = Integer.parseInt(args[4]);
+            transparency = Float.parseFloat(args[5]);
+
         } catch (NumberFormatException e) {
-            System.err.println("❌ Erreur: La taille de police et l'angle doivent être des nombres.");
+            System.err.println("❌ Erreur: La taille de police, l'angle et la transparence doivent être des nombres.");
             System.exit(1);
             return;
         }
 
         try {
-            addTextWatermark(inputFilePath, outputFilePath, variableText, fontSize, rotationAngle);
+            addTextWatermark(inputFilePath, outputFilePath, variableText, fontSize, rotationAngle, transparency);
             System.out.println("✅ Filigrane '" + variableText + "' ajouté avec succès.");
             System.out.println("Fichier de sortie : " + outputFilePath);
         } catch (IOException e) {
             System.err.println("❌ Erreur lors du traitement du PDF : " + e.getMessage());
-            e.printStackTrace();
             System.exit(2);
         }
     }
